@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANNA RACHIM</title>
+    <style>
+        :root { --bg-color: #0d0d0d; --card-bg: #161618; --card-border: #26262a; --text-main: #ffffff; --modal-bg: #1c1c1e; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+        .hidden { display: none; }
+        .modal-overlay { position: fixed; top:0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { background: var(--modal-bg); padding: 20px; border-radius: 20px; width: 90%; max-width: 400px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; background: #26262a; border: none; border-radius: 10px; color: white; }
+        button { width: 100%; padding: 12px; background: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Экран регистрации (показывается, если не вошел) -->
+    <div id="authScreen" class="modal-overlay hidden">
+        <div class="modal">
+            <h2 id="modalTitle">Регистрация</h2>
+            <div id="step1">
+                <input type="text" id="regName" placeholder="Имя">
+                <input type="email" id="regEmail" placeholder="Email">
+                <button onclick="sendCode()">Получить код (введи любой)</button>
+            </div>
+            <div id="step2" class="hidden">
+                <input type="text" id="regCode" placeholder="Код (1234)">
+                <button onclick="verifyCode()">Подтвердить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной сайт -->
+    <div class="container">
+        <div id="welcomeText">Привет!</div>
+        <div class="card" style="background:#161618; padding:20px; border-radius:16px;">Профиль настроен</div>
+    </div>
+
+    <script>
+        const authScreen = document.getElementById('authScreen');
+        
+        // Проверка: был ли вход ранее
+        if (!localStorage.getItem('isLoggedIn')) {
+            authScreen.classList.remove('hidden');
+        } else {
+            document.getElementById('welcomeText').innerText = 'Привет, ' + localStorage.getItem('userName') + '!';
+        }
+
+        function sendCode() {
+            const name = document.getElementById('regName').value;
+            if(!name) return alert('Введите имя');
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        function verifyCode() {
+            const code = document.getElementById('regCode').value;
+            if(code === '1234') {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userName', document.getElementById('regName').value);
+                location.reload();
+            } else {
+                alert('Неверный код. Используй 1234');
+            }
+        }
+    </script>
+</body>
+</html>
