@@ -28,6 +28,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Telegram-Android-APK
-          path: TMessagesProj/build/outputs/apk/debug/*.apk
-
+          name: kochgramm
+          path: '**/*.apk'
