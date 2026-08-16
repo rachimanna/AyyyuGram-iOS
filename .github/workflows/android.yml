@@ -29,5 +29,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Telegram-Android-APK
-          path: TMessagesProj/build/outputs/apk/afat/debug/*.apk
+         path: TMessagesProj/build/outputs/apk/debug/*.apk
+
 
